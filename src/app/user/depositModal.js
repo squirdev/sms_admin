@@ -37,12 +37,14 @@ export default function DepositUser({
     }
     try {
       setIsLoading(true);
-      const result = await deposit(data._id, usdt);
+      await deposit(data._id, usdt);
       setIsLoading(false);
       setUSDT(0);
       handleDepositOpen();
       fetchData();
     } catch (error) {
+      console.log("ERROR", error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -60,7 +62,6 @@ export default function DepositUser({
             value={usdt}
             onChange={(e) => setUSDT(e.target.value)}
           />
-          <p>SMS: {Number((usdt / data.price).toFixed(0))}</p>
         </DialogBody>
         <DialogFooter>
           <Button

@@ -26,7 +26,9 @@ export default function UpdateUser({
     username: "",
     password: "",
     content: "",
-    price: 0.06,
+    priceH: 0.06,
+    priceC: 0.06,
+    priceM: 0.06,
     percent: 100,
   });
 
@@ -36,7 +38,9 @@ export default function UpdateUser({
         username: data.username || "",
         password: data.password || "",
         content: data.content || "",
-        price: data.price || 0.06,
+        priceH: data.priceH || 0.06,
+        priceC: data.priceC || 0.06,
+        priceM: data.priceM || 0.06,
         percent: data.percent || 100,
       });
     }
@@ -59,7 +63,9 @@ export default function UpdateUser({
     if (
       !formData.username ||
       !formData.password ||
-      formData.price <= 0 ||
+      formData.priceH <= 0 ||
+      formData.priceC <= 0 ||
+      formData.priceM <= 0 ||
       formData.percent <= 0 ||
       formData.percent > 100
     ) {
@@ -166,13 +172,44 @@ export default function UpdateUser({
             value={formData.content}
             onChange={handleChange}
           />
-          <Input
-            label="短信价格"
-            name="price"
-            min={0}
-            value={formData.price}
-            onChange={handleChange}
-          />
+          <div className="w-ull flex gap-2">
+            <Input
+              label="短信价格(香港)"
+              name="price"
+              min={0}
+              value={formData.priceH}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  priceH: e.target.value,
+                }))
+              }
+            />
+            <Input
+              label="短信价格(中国)"
+              name="price"
+              min={0}
+              value={formData.priceC}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  priceC: e.target.value,
+                }))
+              }
+            />
+            <Input
+              label="短信价格(澳门)"
+              name="price"
+              min={0}
+              value={formData.priceM}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  priceM: e.target.value,
+                }))
+              }
+            />
+          </div>
           <Input
             label="短信发送百分比"
             type="number"

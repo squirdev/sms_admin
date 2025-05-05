@@ -14,10 +14,12 @@ import CustomAlert from "../components/customAlert";
 import { IoMdRefresh } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
 export default function CreateUser({ addOpen, handleAddOpen, fetchData }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(generateRandomLetters(5));
+  const [password, setPassword] = useState(generateRandomLetters(8));
   const [content, setContent] = useState("");
-  const [price, setPrice] = useState(0.06);
+  const [priceH, setPriceH] = useState(0.06);
+  const [priceC, setPriceC] = useState(0.06);
+  const [priceM, setPriceM] = useState(0.06);
   const [percent, setPercent] = useState(100);
   const [alertMessage, setAlertMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -26,30 +28,35 @@ export default function CreateUser({ addOpen, handleAddOpen, fetchData }) {
     setTimeout(() => setAlertMessage(""), 2000);
   };
 
-  useEffect(() => {
-    setUsername(generateRandomLetters(5));
-    setPassword(generateRandomLetters(8));
-    setContent("");
-    setPrice(0.06);
-    setPercent(100);
-  }, []);
   const handleCreateUser = async () => {
-    if (!username || !password || price <= 0 || percent <= 0 || percent > 100) {
+    if (
+      !username ||
+      !password ||
+      priceH <= 0 ||
+      priceC <= 0 ||
+      priceM <= 0 ||
+      percent <= 0 ||
+      percent > 100
+    ) {
       showMessage("正确输入所有信息。");
       return;
     }
     setIsLoading(true);
     try {
-      await newUser(username, password, content, price, percent);
-      setUsername(generateRandomLetters(5));
-      setPassword(generateRandomLetters(8));
-      setContent("");
-      setPrice(0.06);
-      setPercent(100);
-      setIsLoading(false);
+      await newUser({
+        username,
+        password,
+        content,
+        priceH,
+        priceC,
+        priceM,
+        percent,
+      });
       handleAddOpen();
       fetchData();
     } catch (error) {
+      console.log("ERROR:", error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -131,13 +138,29 @@ export default function CreateUser({ addOpen, handleAddOpen, fetchData }) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <Input
-            label="短信价格"
-            type="number"
-            min={0}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
+          <div className="w-full flex gap-2">
+            <Input
+              label="短信价格(香港)"
+              type="number"
+              min={0}
+              value={priceH}
+              onChange={(e) => setPriceH(e.target.value)}
+            />
+            <Input
+              label="短信价格(中国)"
+              type="number"
+              min={0}
+              value={priceC}
+              onChange={(e) => setPriceC(e.target.value)}
+            />
+            <Input
+              label="短信价格(澳门)"
+              type="number"
+              min={0}
+              value={priceM}
+              onChange={(e) => setPriceM(e.target.value)}
+            />
+          </div>
           <Input
             label="短信发送百分比"
             type="number"

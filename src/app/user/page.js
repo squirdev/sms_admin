@@ -22,50 +22,56 @@ import UpdateActiveUser from "./updateActiveModal";
 import UpdateUser from "./updateModal";
 import CustomAlert from "../components/customAlert";
 import DepositUser from "./depositModal";
-import { LiaSmsSolid } from "react-icons/lia";
+// import { LiaSmsSolid } from "react-icons/lia";
 import { TbClockDollar } from "react-icons/tb";
 import USDTLog from "./usdtlogModal";
-import SMSLog from "./smslogModal";
+// import SMSLog from "./smslogModal";
 export default function UserPage() {
   const [addOpen, setAddOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [updateActiveOpen, setUpdateActiveOpen] = useState(false);
   const [depositOpen, setDepositOpen] = useState(false);
   const [usdtLogOpen, setUSDTLogOpen] = useState(false);
-  const [smsLogOpen, setSMSLogOpen] = useState(false);
+  // const [smsLogOpen, setSMSLogOpen] = useState(false);
   const [userdata, setUserdata] = useState([]);
   const [selectedData, setSelectedData] = useState({});
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPage, setTotalPage] = useState(1);
-  const [search, setSearch] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
-  const showMessage = (msg) => {
-    setAlertMessage(msg);
-    setTimeout(() => setAlertMessage(""), 2000);
-  };
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
   const dispatch = useDispatch();
+
   const fetchData = async () => {
-    const searchResult = await getUserList(page, limit, search);
-    if (searchResult.status === 401) {
-      dispatch(logout());
-      router.push("/login");
-      return;
-    }
-    if (searchResult.status === 200) {
-      setTotal(searchResult.data.total);
-      setPage(searchResult.data.page);
-      setLimit(searchResult.data.limit);
-      setTotalPage(searchResult.data.totalPages);
-      setUserdata(searchResult.data.data);
-      return;
+    try {
+      setIsLoading(true);
+      const searchResult = await getUserList(page, limit);
+      if (searchResult.status === 401) {
+        dispatch(logout());
+        router.push("/login");
+        return;
+      }
+      if (searchResult.status === 200) {
+        setTotal(searchResult.data.total);
+        setPage(searchResult.data.page);
+        setLimit(searchResult.data.limit);
+        setTotalPage(searchResult.data.totalPages);
+        setUserdata(searchResult.data.data);
+        return;
+      }
+    } catch (error) {
+      console.log("error while getting user list:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData();
-  }, [page, limit, search]);
+  }, [page, limit]);
   const handleAddOpen = () => {
     setAddOpen(!addOpen);
   };
@@ -81,9 +87,9 @@ export default function UserPage() {
   const handleUSDTLogOpen = () => {
     setUSDTLogOpen(!usdtLogOpen);
   };
-  const handleSMSLogOpen = () => {
-    setSMSLogOpen(!smsLogOpen);
-  };
+  // const handleSMSLogOpen = () => {
+  //   setSMSLogOpen(!smsLogOpen);
+  // };
   const handleActiveSwitch = (data) => {
     handleUpdateActiveOpen();
     setSelectedData(data);
@@ -100,16 +106,15 @@ export default function UserPage() {
     handleUSDTLogOpen();
     setSelectedData(data);
   };
-  const handleSMSlog = (data) => {
-    handleSMSLogOpen();
-    setSelectedData(data);
-  };
+  // const handleSMSlog = (data) => {
+  //   handleSMSLogOpen();
+  //   setSelectedData(data);
+  // };
   const TABLE_HEAD = [
     "用户名",
     "密码",
     "标注",
     "USDT",
-    "短信价格",
     "短信成功率",
     "活跃状态",
     "行动",
@@ -120,7 +125,6 @@ export default function UserPage() {
       <div className="flex flex-col gap-4 w-full bg-gray-300 p-10">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-row gap-2 items-center whitespace-nowrap">
-            <Input label="搜索" onChange={(e) => setSearch(e.target.value)} />
             <Button color="blue" onClick={handleAddOpen}>
               创建用户
             </Button>
@@ -235,15 +239,6 @@ export default function UserPage() {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        ${data.price}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
                         {data.percent}%
                       </Typography>
                     </td>
@@ -272,12 +267,12 @@ export default function UserPage() {
                     </td>
                     <td className={classes}>
                       <div className="flex flex-row gap-1  items-center">
-                        <IconButton
+                        {/* <IconButton
                           color="white"
                           onClick={() => handleSMSlog(data)}
                         >
                           <LiaSmsSolid size={20} />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton
                           color="white"
                           onClick={() => handleUSDTLog(data)}
@@ -321,11 +316,11 @@ export default function UserPage() {
         handleUSDTLogOpen={() => handleUSDTLogOpen()}
         data={selectedData}
       />
-      <SMSLog
+      {/* <SMSLog
         smsLogOpen={smsLogOpen}
         handleSMSLogOpen={() => handleSMSLogOpen()}
         data={selectedData}
-      />
+      /> */}
       <CustomAlert message={alertMessage} />
     </div>
   );

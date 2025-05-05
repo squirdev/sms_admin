@@ -34,14 +34,24 @@ export const getUserAll = async () => {
     return error.response;
   }
 };
-export const newUser = async (username, password, content, price, percent) => {
+export const newUser = async ({
+  username,
+  password,
+  content,
+  priceH,
+  priceC,
+  priceM,
+  percent,
+}) => {
   try {
     const response = await axiosApi.post("/admin/user", {
-      username: username,
-      password: password,
-      content: content,
-      price: price,
-      percent: percent,
+      username,
+      password,
+      content,
+      priceH,
+      priceC,
+      priceM,
+      percent,
     });
     return response.data;
   } catch (error) {
