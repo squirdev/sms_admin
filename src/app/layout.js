@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>SMS Admin</title>
+        <title>SMS Admin Dashboard</title>
       </head>
       <body className="bg-gray-100">
         <ReduxProvider>
