@@ -58,6 +58,7 @@ export default function SMSLog() {
     "用户内容",
     "输入电话号码数量",
     "已发送电话号码数",
+    "Network(网络)",
     "内容",
     "发件人 ID",
     "控制百分比",
@@ -139,6 +140,15 @@ export default function SMSLog() {
                       className="font-normal"
                     >
                       {data.sendCount}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {data.network}
                     </Typography>
                   </td>
                   <td className={classes}>
