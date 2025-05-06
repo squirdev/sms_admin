@@ -11,7 +11,10 @@ import DatePicker from "../components/datePicker";
 export default function Dashboard() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [searchDate, setSearchDate] = useState(new Date());
+  const [searchDate, setSearchDate] = useState(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  });
   const [totalDeposit, setTotalDeposit] = useState(0);
   const [totalSMS, setTotalSMS] = useState(0);
   const [totalProfit, setTotalProfit] = useState(0);

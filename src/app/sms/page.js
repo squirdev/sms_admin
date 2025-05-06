@@ -22,7 +22,10 @@ export default function SMSLog() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [smsData, setSMSData] = useState([]);
-  const [searchDate, setSearchDate] = useState(new Date());
+  const [searchDate, setSearchDate] = useState(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  });
   const [open, setOpen] = useState(false);
   const [phonelist, setPhoneList] = useState([]);
 
@@ -48,6 +51,11 @@ export default function SMSLog() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    console.log("Search Date", searchDate);
+    console.log("Search Date Type", typeof searchDate);
+  }, [searchDate]);
 
   useEffect(() => {
     fetchData();
