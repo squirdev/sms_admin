@@ -31,7 +31,10 @@ export default function PaymentLog() {
     );
   }, [smsData]);
 
-  const [searchDate, setSearchDate] = useState(new Date());
+  const [searchDate, setSearchDate] = useState(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  });
 
   const fetchPaymentDetail = async () => {
     try {
