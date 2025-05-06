@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogBody,
   DialogFooter,
@@ -13,6 +14,7 @@ import CustomAlert from "../components/customAlert";
 import { useState, useEffect } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { IoMdRefresh } from "react-icons/io";
+import { generateRandomLetters } from "@/helper";
 
 export default function UpdateUser({
   updateOpen,
@@ -30,6 +32,7 @@ export default function UpdateUser({
     priceC: 0.06,
     priceM: 0.06,
     percent: 100,
+    isTestUser: false,
   });
 
   useEffect(() => {
@@ -42,6 +45,7 @@ export default function UpdateUser({
         priceC: data.priceC || 0.06,
         priceM: data.priceM || 0.06,
         percent: data.percent || 100,
+        isTestUser: data.isTestUser || false,
       });
     }
   }, [data]);
@@ -82,18 +86,7 @@ export default function UpdateUser({
       setIsLoading(false);
     }
   };
-  function generateRandomLetters(length) {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let result = "";
 
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-    }
-
-    return result;
-  }
   return (
     <div>
       <Dialog open={updateOpen} handler={handleUpdateOpen}>
@@ -218,6 +211,16 @@ export default function UpdateUser({
             max={100}
             value={formData.percent}
             onChange={handleChange}
+          />
+          <Checkbox
+            checked={formData.isTestUser}
+            label="测试账户"
+            onChange={() =>
+              setFormData((prev) => ({
+                ...prev,
+                isTestUser: !prev.isTestUser,
+              }))
+            }
           />
         </DialogBody>
         <DialogFooter>

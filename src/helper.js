@@ -15,3 +15,13 @@ export function getSimplifiedDateTime(isoString) {
   const simpleDateTime = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
   return simpleDateTime;
 }
+
+export function generateRandomLetters(length) {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}

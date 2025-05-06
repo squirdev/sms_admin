@@ -45,7 +45,7 @@ export default function Dashboard() {
       let entireProfit = response.reduce(
         (sum, data) =>
           sum +
-          data.totalCount * data.userPerPrice -
+          (data?.userId?.isTestUser ? 0 : data.totalCount * data.userPerPrice) -
           data.sendCount * data.sysPerPrice,
         0
       );

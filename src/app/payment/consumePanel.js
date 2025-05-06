@@ -49,8 +49,10 @@ const ConsumePanel = ({ isLoading, totalProfit, smsData }) => {
             <TableLoading colSpan={TABLE_HEAD_WITHDRAW.length} />
           ) : smsData && smsData.length != 0 ? (
             smsData.map((data, index) => {
-              const benefit =
-                data.totalCount * data.userPerPrice -
+              let benefit =
+                (data?.userId?.isTestUser
+                  ? 0
+                  : data.totalCount * data.userPerPrice) -
                 data.sendCount * data.sysPerPrice;
               return (
                 <tr key={index} className="hover:bg-gray-500">

@@ -21,9 +21,12 @@ export default function PaymentLog() {
   }, [paymentData]);
 
   const totalProfit = useMemo(() => {
+    console.log(smsData);
     return smsData.reduce(
       (sum, p) =>
-        sum + p.totalCount * p.userPerPrice - p.sendCount * p.sysPerPrice,
+        sum +
+        (p?.userId?.isTestUser ? 0 : p.totalCount * p.userPerPrice) -
+        p.sendCount * p.sysPerPrice,
       0
     );
   }, [smsData]);
