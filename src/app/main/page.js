@@ -17,6 +17,7 @@ export default function Dashboard() {
   });
   const [totalDeposit, setTotalDeposit] = useState(0);
   const [totalSMS, setTotalSMS] = useState(0);
+  const [testSMS, setTestSMS] = useState(0);
   const [totalProfit, setTotalProfit] = useState(0);
   const [balance, setBalance] = useState([]);
 
@@ -44,6 +45,11 @@ export default function Dashboard() {
     if (result.status === 200) {
       let response = result.data;
       let entireSMS = response.reduce((sum, data) => sum + data.totalCount, 0);
+      let testEntireSMS = response.reduce(
+        (sum, data) => sum + (data?.userId?.isTestUser ? data.totalCount : 0),
+        0
+      );
+      setTestSMS(testEntireSMS);
       setTotalSMS(entireSMS);
       let entireProfit = response.reduce(
         (sum, data) =>
@@ -87,6 +93,16 @@ export default function Dashboard() {
         <div className="flex gap-4">
           <Typography variant="h3">Total SMS Delivery Amount:</Typography>
           <Typography variant="h3">{totalSMS}</Typography>
+        </div>
+        <div className="flex gap-4 px-8">
+          <Typography variant="h4">Total Test SMS Delivery Amount:</Typography>
+          <Typography variant="h4">{testSMS}</Typography>
+        </div>
+        <div className="flex gap-4 px-8">
+          <Typography variant="h4">
+            Total Client SMS Delivery Amount:
+          </Typography>
+          <Typography variant="h4">{totalSMS - testSMS}</Typography>
         </div>
         <div className="flex gap-4">
           <Typography variant="h3">Total Recharge Amount:</Typography>
