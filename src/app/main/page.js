@@ -11,7 +11,6 @@ import DatePicker from "../components/datePicker";
 import { logout } from "../../../redux/authSlice";
 import { getAllDeposit } from "../api/payment";
 import { getBalance, getSms } from "../api/sms";
-import DefaultSkeleton from "../components/skeleton";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -144,13 +143,8 @@ export default function Dashboard() {
           <div className="flex flex-col gap-4">
             {balance && balance.length == 3 && (
               <>
-                <Typography variant="h5">
-                  欧美通道（Telegram） : ${balance[0]}
-                </Typography>
-                <Typography variant="h5">
-                  欧美通道(WhatsApp) : ${balance[1]}
-                </Typography>
-                <Typography variant="h5">博士通道 : ${balance[2]}</Typography>
+                <Typography variant="h5">欧美通道 : ${balance[0]}</Typography>
+                <Typography variant="h5">博士通道 : ${balance[1]}</Typography>
               </>
             )}
           </div>
