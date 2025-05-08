@@ -17,6 +17,7 @@ import TableLoading from "../components/tableLoading";
 import TableNoData from "../components/tableNoData";
 import { getSimplifiedDateTime } from "@/helper";
 import DatePicker from "../components/datePicker";
+import { BsBootstrapReboot } from "react-icons/bs";
 
 export default function SMSLog() {
   const router = useRouter();
@@ -52,10 +53,9 @@ export default function SMSLog() {
     }
   };
 
-  useEffect(() => {
-    console.log("Search Date", searchDate);
-    console.log("Search Date Type", typeof searchDate);
-  }, [searchDate]);
+  const handleRefreshPage = () => {
+    fetchData();
+  };
 
   useEffect(() => {
     fetchData();
@@ -75,7 +75,16 @@ export default function SMSLog() {
 
   return (
     <div className="p-10">
-      <DatePicker searchDate={searchDate} setSearchDate={setSearchDate} />
+      <div className="w-full flex justify-between">
+        <DatePicker searchDate={searchDate} setSearchDate={setSearchDate} />
+        <button
+          onClick={handleRefreshPage}
+          className="flex items-center gap-1 text-green-500 font-bold"
+        >
+          <BsBootstrapReboot className="w-5 h-5" />
+          <p className="text-lg">重新加载</p>
+        </button>
+      </div>
 
       <table className="w-full table-auto text-left">
         <thead>

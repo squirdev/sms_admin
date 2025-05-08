@@ -10,11 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/authSlice";
 
 export default function Login() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { isAuth } = useSelector((state) => state.auth);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
-
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const showMessage = (msg) => {
     setAlertMessage(msg);
@@ -27,17 +29,24 @@ export default function Login() {
       showMessage(checkValid.message);
       return;
     }
-    let result = await signin(username, password);
-    showMessage(result.message);
-    if (result.success) {
-      let token = result.token;
-      let user = result.user;
-      dispatch(login({ token, user }));
-      setTimeout(() => router.push("/main"), 2000);
+    try {
+      setIsLoading(true);
+      let result = await signin(username, password);
+      if (result.success) {
+        let token = result.token;
+        let user = result.user;
+        dispatch(login({ token, user }));
+        setTimeout(() => router.push("/main"), 2000);
+      } else {
+        showMessage("用户名或密码错误");
+      }
+    } catch (error) {
+      console.log("ERROR", error);
+    } finally {
+      setIsLoading(false);
     }
   };
-  const { isAuth } = useSelector((state) => state.auth);
-  const router = useRouter();
+
   useEffect(() => {
     if (isAuth) {
       router.push("/main");
@@ -82,7 +91,14 @@ export default function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <Button onClick={handleSignin} className="mt-6" fullWidth>
+                <Button
+                  fullWidth
+                  type="submit"
+                  onSubmit={handleSignin}
+                  loading={isLoading}
+                  onClick={handleSignin}
+                  className="mt-6 flex justify-center"
+                >
                   登陆
                 </Button>
               </form>
