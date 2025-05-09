@@ -141,7 +141,7 @@ export default function Dashboard() {
         <div className="flex gap-4">
           <Typography variant="h4">API余额:</Typography>
           <div className="flex flex-col gap-4">
-            {balance && balance.length == 3 && (
+            {balance && balance.length == 2 && (
               <>
                 <Typography variant="h5">欧美通道 : ${balance[0]}</Typography>
                 <Typography variant="h5">博士通道 : ${balance[1]}</Typography>
