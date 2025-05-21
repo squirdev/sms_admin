@@ -54,17 +54,17 @@ export default function Login() {
   }, []);
 
   return (
-    <div className="flex flex-row bg-[url('/bg.jpg')] bg-cover bg-center h-screen ml-0">
-      <div className="w-[60%] flex items-center justify-center ">
+    <div className="flex flex-row bg-gray-600 w-full h-screen">
+      <div className="w-1/2 bg-amber-600 flex items-center justify-center ">
         <img src="/gold_logo.png" className="w-full" />
       </div>
-      <div className="content  w-[30%]">
+      <div className="content  w-1/2">
         <CustomAlert message={alertMessage} />
-        <div className="h-screen flex items-center justify-start">
+        <div className="h-screen flex items-center justify-center">
           <Card
             shadow={false}
             color="transparent"
-            className="p-4 text-gray-500"
+            className="text-gray-500"
           >
             <div>
               <div className="flex items-self-center justify-self-center">

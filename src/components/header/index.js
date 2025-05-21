@@ -17,7 +17,7 @@ const Header = () => {
       {isAuth ? (
         <Card className="w-full h-screen">
           <Link href="#">
-            <img src="/logo.png" className="w-full p-5" />
+            <img src="/logo.png" className="w-[200px] p-5" />
           </Link>
           <div className="w-full flex flex-col h-screen justify-between">
             <List className="text-gray-900 text-xl font-bold w-full">

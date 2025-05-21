@@ -27,14 +27,14 @@ export default function RootLayout({ children }) {
           <ScrollProvider>
             <div className="flex flex-row w-full h-screen bg-gray-300">
               {shouldShowFooter && (
-                <div className="w-[20%] h-full">
+                <div className="w-[15%] h-full">
                   <Header />
                 </div>
               )}
               {shouldShowFooter ? (
                 <div className="w-[80%] h-full overflow-y-auto">{children}</div>
               ) : (
-                <div>{children}</div>
+                <div className="w-full h-full">{children}</div>
               )}
             </div>
             <ScrollToTopButton />
