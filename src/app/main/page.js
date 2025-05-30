@@ -23,7 +23,7 @@ export default function Dashboard() {
   const [totalSMS, setTotalSMS] = useState(0);
   const [testSMS, setTestSMS] = useState(0);
   const [totalProfit, setTotalProfit] = useState(0);
-  const [balance, setBalance] = useState([]);
+  const [balance, setBalance] = useState(0);
 
   const fetchAllRecharge = async () => {
     try {
@@ -136,18 +136,11 @@ export default function Dashboard() {
         </div>
         <div className="flex gap-4">
           <Typography variant="h4">利润:</Typography>
-          <Typography variant="h4">${totalProfit.toFixed(3)}</Typography>
+          <Typography variant="h4">${totalProfit.toFixed(2)}</Typography>
         </div>
         <div className="flex gap-4">
           <Typography variant="h4">API余额:</Typography>
-          <div className="flex flex-col gap-4">
-            {balance && balance.length == 2 && (
-              <>
-                <Typography variant="h5">欧美通道 : ${balance[0]}</Typography>
-                <Typography variant="h5">博士通道 : ${balance[1]}</Typography>
-              </>
-            )}
-          </div>
+          <Typography variant="h4">${balance}</Typography>
         </div>
       </div>
     </div>
